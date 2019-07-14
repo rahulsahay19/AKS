@@ -21,61 +21,58 @@ GO
 USE AKSLearnDB
 GO
 
-if not exists (select * from sysobjects where name='Genres' and xtype='U')
+if not exists (select * from sysobjects where name='Categories' and xtype='U')
     BEGIN
-        PRINT 'Creating Genres table'
-        CREATE TABLE Genres 
+        PRINT 'Creating Categories table'
+        CREATE TABLE Categories 
         (
             Id INT IDENTITY(1,1) PRIMARY KEY,
-            gen_title NVARCHAR(50)
+            categoryName NVARCHAR(50), 
+            description NVARCHAR(100)
         )
 
-        PRINT 'Inserting default values in Genres table...'
-        INSERT INTO Genres(gen_title) VALUES('Action');
-        INSERT INTO Genres(gen_title) VALUES('Adventure');
-        INSERT INTO Genres(gen_title) VALUES('Romance');
-        INSERT INTO Genres(gen_title) VALUES('Thriller');
-        INSERT INTO Genres(gen_title) VALUES('War');
+        PRINT 'Inserting default values in categories table...'
+        INSERT INTO Categories(categoryName, description) VALUES('AKS Meetup', 'AKS Community event');
+        INSERT INTO Categories(categoryName, description) VALUES('Kongsberg Tech Conference', 'Free Tech Conference');
+        INSERT INTO Categories(categoryName, description) VALUES('ThoughtWorks Conference', 'Paid Tech Conference');
+        INSERT INTO Categories(categoryName, description) VALUES('Kongsberg Hackathon', 'Open Hack for all');
+        INSERT INTO Categories(categoryName, description) VALUES('Golang Conference', 'Golang Community event');
     END
 GO
 
-if not exists (select * from sysobjects where name='Stars' and xtype='U')
+if not exists (select * from sysobjects where name='Levels' and xtype='U')
     BEGIN
         PRINT 'Creating Level table'
-        CREATE TABLE Stars 
+        CREATE TABLE Levels 
         (
             Id INT IDENTITY(1,1) PRIMARY KEY,
-            starValue NVARCHAR(50)
+            levelName NVARCHAR(50)
         )
 
-        PRINT 'Inserting default values in Genres table...'
-        INSERT INTO Stars(starValue) VALUES('5 - Star');
-        INSERT INTO Stars(starValue) VALUES('4 - Star');
-        INSERT INTO Stars(starValue) VALUES('3 - Star');
-        INSERT INTO Stars(starValue) VALUES('2 - Star');
-		INSERT INTO Stars(starValue) VALUES('1 - Star');
+        PRINT 'Inserting default values in categories table...'
+        INSERT INTO Levels(levelName) VALUES('100 - Beginer');
+        INSERT INTO Levels(levelName) VALUES('200 - Intermediate');
+        INSERT INTO Levels(levelName) VALUES('300 - Advanced');
+        INSERT INTO Levels(levelName) VALUES('400 - Expert');
     END
 GO
 
-if not exists (select * from sysobjects where name='Movie' and xtype='U')
+if not exists (select * from sysobjects where name='TechTalk' and xtype='U')
     BEGIN
-        PRINT 'Creating Movie table'
-        CREATE TABLE Movie 
+        PRINT 'Creating TechTalk table'
+        CREATE TABLE TechTalk 
         (
             Id INT IDENTITY(1,1) PRIMARY KEY,             
-            movieName NVARCHAR(50), 
-			directorName NVARCHAR(50),
-			description NVARCHAR(200),
-            genreId INT REFERENCES Genres(Id),
-            starId INT REFERENCES Stars(Id)
+            techtalkname NVARCHAR(50), 
+            categoryId INT REFERENCES Categories(Id),
+            levelId INT REFERENCES Levels(Id)
         )
 
-        PRINT 'Inserting default values into Movie table'
-        INSERT INTO Movie(movieName, directorName, description, genreId, starId) VALUES ('Titanic', 'James Cameron', 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic', 3, 1); 
-        INSERT INTO Movie(movieName, directorName, description, genreId, starId) VALUES ('Die Another Day', 'Lee Tamahori', 'James Bond is sent to investigate the connection between a North Korean terrorist and a diamond mogul, who is funding the development of an international space weapon', 1, 2);
-        INSERT INTO Movie(movieName, directorName, description, genreId, starId) VALUES ('Jurassic Park', 'Steven Spielberg', 'During a preview tour, a theme park suffers a major power breakdown that allows its cloned dinosaur exhibits to run amok', 1, 2);
-		INSERT INTO Movie(movieName, directorName, description, genreId, starId) VALUES ('Mission Impossible', 'Brian De Palma', 'An American agent, under false suspicion of disloyalty, must discover and expose the real spy without the help of his organization', 4, 1);
-		INSERT INTO Movie(movieName, directorName, description, genreId, starId) VALUES ('Gone in sixty seconds', 'Dominic Sena', 'A retired master car thief must come back to the industry and steal fifty cars with his crew in one night to save his brothers life', 1, 1);
+        PRINT 'Inserting default values into TechTalk table'
+        INSERT INTO TechTalk(techtalkname, categoryId, levelId) VALUES ('Scaling Docker Containers', 1, 1); 
+        INSERT INTO TechTalk(techtalkname, categoryId, levelId) VALUES ('Azure Container Services', 2, 2);
+        INSERT INTO TechTalk(techtalkname, categoryId, levelId) VALUES ('Kubernetes', 3, 3);
+		INSERT INTO TechTalk(techtalkname, categoryId, levelId) VALUES ('Open Hack', 4, 4);
     END
 GO
 
@@ -83,7 +80,7 @@ if not exists (select * from sysobjects where name='KeyValue' and xtype='U')
     BEGIN
         CREATE TABLE KeyValue ([Key] NVARCHAR(10), [Value] NVARCHAR(100))
 
-        INSERT INTO KeyValue VALUES('BBT', 'Bing Bang Theory');
+        INSERT INTO KeyValue VALUES('BBT', 'Big Bang Theory');
        
     END
 GO
