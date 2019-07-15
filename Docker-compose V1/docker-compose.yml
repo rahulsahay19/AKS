@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  sql.data-client:
+    image: rahulsahay19/sqlclient
+    build:
+      context: ../src/AKSLearnDB
+      dockerfile: Dockerfile
+
+  sql.data:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sql1
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=AKSLearn(!)
+    tty: true
+    
+  AKSWeb:
+    image: rahulsahay19/aksweb:v1
+    build:
+      context: ../src/AKSWeb
+      dockerfile: Dockerfile
+    depends_on: 
+      - AKSApi
+    ports:
+      - "8080:80"
+    environment:
+      - AKSApiUrl="http://AKSApi:8081/api/eventsapi/"
+      
+  AKSApi:
+    image: rahulsahay19/aksapi:v1
+    build:
+      context: ../src/AKSApi
+      dockerfile: Dockerfile
+    depends_on:
+      - sql.data
+    ports:
+      - "8081:80"
+    environment:
+       - ConnectionStrings__DefaultConnection=Data Source=sql.data,1433;Initial Catalog=AKSLearnDB;User Id=SA;Password=AKSLearn(!);MultipleActiveResultSets=True;

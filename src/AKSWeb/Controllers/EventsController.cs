@@ -17,7 +17,7 @@ namespace AKSWeb.Controllers
     public class EventsController : Controller
     {
        // private readonly string API_BASE_URL;
-        private const string API_BASE_URL = "http://docker.for.windows.host.internal:8081/api/eventsapi/";
+        private const string API_BASE_URL = "http://localhost:8081/api/eventsapi/";
 
         public EventsController(IConfiguration config)
         {

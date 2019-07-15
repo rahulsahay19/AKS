@@ -53,12 +53,12 @@ namespace AKSWeb
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
+             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                    template: "{controller=Events}/{action=Index}/{id?}");
+});
         }
     }
 }
