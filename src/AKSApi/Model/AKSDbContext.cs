@@ -13,7 +13,7 @@ namespace AKSApi.Model
             
         }
 
-        public DbSet<TechTalk> TechTalks { get; set; }
+        public DbSet<TechTalk> TechTalk { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Category> Categories { get; set; }
     }

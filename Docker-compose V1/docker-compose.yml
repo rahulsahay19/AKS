@@ -15,8 +15,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=AKSLearn(!)
-    tty: true
-    
+        
   AKSWeb:
     image: rahulsahay19/aksweb:v1
     build:

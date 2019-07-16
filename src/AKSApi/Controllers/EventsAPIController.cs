@@ -23,7 +23,7 @@ namespace AKSApi.Controllers
         [HttpGet]
         public IEnumerable<TechTalk> GetAll()
         {
-            List<TechTalk> Events = _context.TechTalks
+            List<TechTalk> Events = _context.TechTalk
                 .Include(t => t.Category)
                 .Include(t => t.Level)
                 .ToList();
@@ -36,7 +36,7 @@ namespace AKSApi.Controllers
         //GET: api/EventsAPI/1
         public TechTalk GetById(int id)
         {
-            var item = _context.TechTalks.FirstOrDefault(o => o.Id.Equals(id));
+            var item = _context.TechTalk.FirstOrDefault(o => o.Id.Equals(id));
             return item;
         }
 
@@ -60,7 +60,7 @@ namespace AKSApi.Controllers
 
             try
             {
-                _context.TechTalks.Add(techTalk);
+                _context.TechTalk.Add(techTalk);
                 _context.Entry(techTalk.Category ?? throw new InvalidOperationException()).State = EntityState.Unchanged;
                 _context.Entry(techTalk.Level ?? throw new InvalidOperationException()).State = EntityState.Unchanged;
                 _context.SaveChanges();
@@ -83,7 +83,7 @@ namespace AKSApi.Controllers
                 return BadRequest();
             }
 
-            var techTalk = _context.TechTalks.FirstOrDefault(t => t.Id.Equals(id));
+            var techTalk = _context.TechTalk.FirstOrDefault(t => t.Id.Equals(id));
             if (techTalk == null)
             {
                 return NotFound();
@@ -91,7 +91,7 @@ namespace AKSApi.Controllers
 
             techTalk.TechTalkName = item.TechTalkName;
 
-            _context.TechTalks.Update(techTalk);
+            _context.TechTalk.Update(techTalk);
             _context.SaveChanges();
             return new NoContentResult();
         }
@@ -100,7 +100,7 @@ namespace AKSApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var techTalk = _context.TechTalks
+            var techTalk = _context.TechTalk
                         .FirstOrDefault(t => t.Id.Equals(id));
 
             if (techTalk == null)
@@ -108,7 +108,7 @@ namespace AKSApi.Controllers
                 return NotFound();
             }
 
-            _context.TechTalks.Remove(techTalk);
+            _context.TechTalk.Remove(techTalk);
             _context.SaveChanges();
 
             return new NoContentResult();

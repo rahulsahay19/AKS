@@ -27,14 +27,17 @@ namespace AKSWeb.Controllers
         }
         public IActionResult Index()
         {
-            List<TechTalkViewModel> techTalks = new List<TechTalkViewModel>();
+            List<EventsViewModel> techTalks = new List<EventsViewModel>();
 
             try
             {
                 var client = new WebClient();
                 var response = client.DownloadString(API_BASE_URL);
+                Console.WriteLine($"API Base Url : {API_BASE_URL}");
+                Console.WriteLine($"Response: {response}");
 
-                techTalks.AddRange(JsonConvert.DeserializeObject<List<TechTalkViewModel>>(response));
+                techTalks.AddRange(JsonConvert.DeserializeObject<List<EventsViewModel>>(response));
+                Console.WriteLine($"TechTalks before: {techTalks}");
 
             }
             catch (Exception ex)
@@ -42,10 +45,10 @@ namespace AKSWeb.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            var result = new List<TechTalkViewModel>
+            var result = new List<EventsViewModel>
             {
-                new TechTalkViewModel {Id = 1, TechTalkName="Docker", CategoryId = 1},
-                new TechTalkViewModel {Id = 2, TechTalkName="Kubernetes", CategoryId = 2}
+                new EventsViewModel {Id = 1, TechTalkName="Docker", CategoryId = 1},
+                new EventsViewModel {Id = 2, TechTalkName="Kubernetes", CategoryId = 2}
             };
 
             if (!techTalks.Any())
@@ -60,7 +63,7 @@ namespace AKSWeb.Controllers
         {
             string url = String.Concat(API_BASE_URL, id);
 
-            TechTalkViewModel techTalk = null;
+            EventsViewModel techTalk = null;
 
             try
             {
@@ -69,7 +72,7 @@ namespace AKSWeb.Controllers
 
                 Console.WriteLine($"Data returned from API call : {response}");
 
-                techTalk = JsonConvert.DeserializeObject<TechTalkViewModel>(response);
+                techTalk = JsonConvert.DeserializeObject<EventsViewModel>(response);
             }
             catch (Exception ex)
             {
