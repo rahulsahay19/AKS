@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  sql.data:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sql1
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=AKSLearn(!)
+        
+  AKSWeb:
+    ports:
+      - "8080:80"
+      
+  AKSApi:
+    ports:
+      - "8081:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=sql.data,1433;Initial Catalog=AKSLearnDB;User Id=SA;Password=AKSLearn(!);MultipleActiveResultSets=True;
+    depends_on: 
+      - sql.data

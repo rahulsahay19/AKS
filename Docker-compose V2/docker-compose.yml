@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  sql.data.client:
+    image: rahulsahay19/sqlclient
+      
+  AKSWeb:
+    image: rahulsahay19/aksweb
+      
+  AKSApi:
+    image: rahulsahay19/aksapi

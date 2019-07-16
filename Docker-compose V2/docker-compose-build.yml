@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  sql.data.client:
+    build:
+      context: ../src/AKSLearnDB
+      dockerfile: Dockerfile
+    
+  AKSWeb:
+    build:
+      context: ../src/AKSWeb
+      dockerfile: Dockerfile
+    depends_on: 
+      - AKSApi
+      
+  AKSApi:
+    build:
+      context: ../src/AKSApi
+      dockerfile: Dockerfile
