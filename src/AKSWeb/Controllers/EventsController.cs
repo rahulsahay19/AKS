@@ -16,14 +16,14 @@ namespace AKSWeb.Controllers
 {
     public class EventsController : Controller
     {
-       // private readonly string API_BASE_URL;
-        private const string API_BASE_URL = "http://localhost:8081/api/eventsapi/";
+        private readonly string API_BASE_URL;
+       // private const string API_BASE_URL = "http://AKSApi:8081/api/eventsapi/";
 
         public EventsController(IConfiguration config)
         {
-          //  API_BASE_URL = config.GetValue<string>("TechTalksAPIUrl");
+            API_BASE_URL = config.GetValue<string>("AKSApiUrl");
 
-           // Console.WriteLine($"API base URL : {API_BASE_URL}");
+            Console.WriteLine($"API base URL : {API_BASE_URL}");
         }
         public IActionResult Index()
         {
