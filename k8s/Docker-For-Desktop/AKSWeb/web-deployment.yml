@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: aksweb
+  namespace: aks-learning
+  labels:
+    run: webfront
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: webfront-deployment
+  
+  template:
+    metadata:
+      labels:
+        run: webfront-deployment
+    spec:
+      containers:
+      - name: aksweb
+        image: rahulsahay19/aksweb
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: http://0.0.0.0:8080  
+        - name: AKSApiUrl
+          value: "http://AKSApi:8081/api/eventsapi/" 
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        imagePullPolicy: IfNotPresent   
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
