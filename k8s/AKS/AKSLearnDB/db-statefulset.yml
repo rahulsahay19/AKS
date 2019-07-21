@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: db-deployment
+  namespace: aks-learning-azure
+spec:
+  serviceName: db-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      terminationGracePeriodSeconds: 10
+      
+      containers:
+      - name: sql1
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        imagePullPolicy: Always
+        ports:
+        - name: dbport
+          containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: AKSLearn(!)
+         # valueFrom:
+          #  secretKeyRef:
+           #   name: sqlsecret
+            #  key: sapassword
+        - name: MSSQL_PID
+          value: Developer
+        volumeMounts:
+        - name: mssqldb
+          mountPath: /var/opt/mssql
+      volumes:
+      - name: mssqldb
+        persistentVolumeClaim:
+          claimName: akslearndb-data

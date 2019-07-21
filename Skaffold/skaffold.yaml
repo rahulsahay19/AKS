@@ -1,0 +1,31 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+build:
+  artifacts:
+  - image: rahulsahay19/sqlclient
+    context: src\AKSLearnDB
+  - image: rahulsahay19/aksapi
+    context: src\AKSApi
+  - image: rahulsahay19/aksweb
+    context: src\AKSWeb
+deploy:
+  kubectl:
+    manifests:
+    - k8s\AKS\AKSApi\api-deployment.yml
+    - k8s\AKS\AKSApi\api-service.yml
+    - k8s\AKS\AKSLearnDB\db-service.yml
+    - k8s\AKS\AKSLearnDB\db-statefulset.yml
+    - k8s\AKS\AKSLearnDB\sa-password.yml
+    - k8s\AKS\AKSWeb\web-deployment.yml
+    - k8s\AKS\AKSWeb\web-service.yml
+    - k8s\AKS\AKS_namespace.yml
+    - k8s\AKS\PersistantVolumeClaim.yml
+    - k8s\AKS\StorageClass.yml
+    - k8s\Docker-For-Desktop\1_AKS_namespace.yml
+    - k8s\Docker-For-Desktop\AKSApi\api-deployment.yml
+    - k8s\Docker-For-Desktop\AKSApi\api-service.yml
+    - k8s\Docker-For-Desktop\AKSLearnDB\db-service.yml
+    - k8s\Docker-For-Desktop\AKSLearnDB\db-statefulset.yml
+    - k8s\Docker-For-Desktop\AKSLearnDB\sa-password.yml
+    - k8s\Docker-For-Desktop\AKSWeb\web-deployment.yml
+    - k8s\Docker-For-Desktop\AKSWeb\web-service.yml

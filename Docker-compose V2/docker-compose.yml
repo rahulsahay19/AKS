@@ -5,7 +5,7 @@ services:
     image: rahulsahay19/sqlclient
       
   AKSWeb:
-    image: rahulsahay19/aksweb
+    image: rahulsahay19/aksweb:v1
       
   AKSApi:
-    image: rahulsahay19/aksapi
+    image: rahulsahay19/aksapi:v1

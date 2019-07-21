@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: aksapi
+  namespace: aks-learning-azure
+  labels:
+    run: aksapi
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: aksapi
+  
+  template:
+    metadata:
+      labels:
+        run: aksapi
+    spec:
+      initContainers:
+        - name: init-myservice
+          image: rahulsahay19/sqlclient
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: SA_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sqlsecret
+                key: sapassword
+          command:
+            - "sh"
+            - "-c"
+            - "/opt/mssql-tools/bin/sqlcmd -S db-deployment -U sa -P $(SA_PASSWORD) -d master -i initialize-db.sql"
+      containers:
+      - name: aksapi
+        image: rahulsahay19/aksapi:v1
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: ASPNETCORE_URLS
+            value: http://0.0.0.0:8081
+          - name: SA_PASSWORD
+            value: AKSLearn(!)
+           # valueFrom:
+           #   secretKeyRef:
+           #     name: sqlsecret
+           #     key: sapassword
+          - name: ConnectionStrings__DefaultConnection
+            value: "Data Source=db-deployment;Initial Catalog=AKSLearnDB;User Id=SA;Password=$(SA_PASSWORD);MultipleActiveResultSets=True" 
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
